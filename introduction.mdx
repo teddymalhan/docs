@@ -1,0 +1,61 @@
+---
+title: Introduction
+description: Welcome to the RetroWatch API documentation
+---
+
+# Welcome to RetroWatch API
+
+RetroWatch is a full-stack video processing platform that allows you to upload videos, apply retro shader effects (CRT, VHS, ARCADE), and manage advertisements.
+
+## Features
+
+- **Video Upload & Processing**: Upload videos and apply retro shader effects
+- **Advertisement Management**: Upload and manage advertisement content
+- **Real-time Processing**: Track video processing jobs in real-time
+- **Database Operations**: Full CRUD operations via Supabase integration
+- **Secure Authentication**: JWT-based authentication via Clerk
+
+## Base URL
+
+```
+https://retrowatch.malhan.ca
+```
+
+For local development:
+```
+http://localhost:8080
+```
+
+## Quick Links
+
+<CardGroup cols={2}>
+  <Card
+    title="Authentication"
+    icon="lock"
+    href="/authentication"
+  >
+    Learn how to authenticate with the API
+  </Card>
+  <Card
+    title="API Reference"
+    icon="code"
+    href="/api-reference/overview"
+  >
+    Explore all available endpoints
+  </Card>
+</CardGroup>
+
+## Getting Started
+
+1. **Authenticate** - Obtain a JWT token from Clerk
+2. **Upload a Video** - Use the `/api/protected/videos/upload` endpoint
+3. **Process Video** - Apply shader effects via `/api/protected/process-video`
+4. **Track Status** - Monitor processing via `/api/protected/processing-status`
+
+## Shader Styles
+
+RetroWatch supports three retro shader styles:
+
+- **CRT**: Classic cathode ray tube monitor effect
+- **VHS**: Vintage VHS tape aesthetic
+- **ARCADE**: Retro arcade machine styling

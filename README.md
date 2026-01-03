@@ -1,43 +1,104 @@
-# Mintlify Starter Kit
+# RetroWatch API Documentation
 
-Use the starter kit to get your docs deployed and ready to customize.
+This directory contains the Mintlify documentation for the RetroWatch API.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+## Prerequisites
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+Mintlify requires Node.js LTS version (18, 20, or 22). You currently have Node v25.2.1 installed.
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
+To use Mintlify, you need to switch to an LTS version:
 
-## Development
+### Using nvm (Node Version Manager)
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
+```bash
+# Install Node 20 LTS
+nvm install 20
 
-```
-npm i -g mint
-```
+# Use Node 20
+nvm use 20
 
-Run the following command at the root of your documentation, where your `docs.json` is located:
-
-```
-mint dev
+# Verify version
+node --version
 ```
 
-View your local preview at `http://localhost:3000`.
+## Running Locally
 
-## Publishing changes
+Once you're on an LTS Node version:
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
+```bash
+# Navigate to docs directory
+cd docs
 
-## Need help?
+# Start the dev server
+pnpm dlx mintlify dev
+```
 
-### Troubleshooting
+The documentation will be available at `http://localhost:3000`
 
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
+## Project Structure
 
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+```
+docs/
+├── docs.json              # Main configuration file
+├── openapi.json           # OpenAPI specification
+├── introduction.mdx       # Introduction page
+├── authentication.mdx     # Authentication guide
+├── api-reference/
+│   └── overview.mdx      # API overview page
+├── logo-light.svg        # Light mode logo
+└── logo-dark.svg         # Dark mode logo
+```
+
+## Features
+
+- **OpenAPI Integration**: Automatic API reference generation from your OpenAPI spec
+- **Authentication Guide**: Detailed JWT authentication documentation
+- **Custom Pages**: Introduction and overview pages for better user experience
+- **Responsive Design**: Beautiful documentation that works on all devices
+
+## Customization
+
+### Updating the OpenAPI Spec
+
+To update the API documentation, replace `docs/openapi.json` with the latest spec:
+
+```bash
+# If your API is running locally
+curl http://localhost:8080/api-docs > docs/openapi.json
+
+# From production
+curl https://retrowatch.malhan.ca/api-docs > docs/openapi.json
+```
+
+### Modifying Configuration
+
+Edit `docs/docs.json` to customize:
+- Colors and theme
+- Navigation structure
+- Footer and social links
+- Logo and branding
+
+### Adding Pages
+
+Create new `.mdx` files in the `docs/` directory and add them to the navigation in `docs.json`.
+
+## Deployment
+
+Mintlify can be deployed to:
+- Mintlify hosting (recommended)
+- Vercel
+- Netlify
+- Any static hosting provider
+
+### Deploy to Mintlify
+
+1. Sign up at https://mintlify.com
+2. Connect your GitHub repository
+3. Point to the `docs/` directory
+4. Deploy automatically on every push
+
+## Resources
+
+- [Mintlify Documentation](https://mintlify.com/docs)
+- [OpenAPI Integration Guide](https://mintlify.com/docs/api-playground/openapi-setup)
+- [Component Library](https://mintlify.com/docs/content/components)

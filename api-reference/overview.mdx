@@ -1,0 +1,138 @@
+---
+title: API Overview
+description: Overview of the RetroWatch API endpoints
+---
+
+# API Overview
+
+The RetroWatch API provides comprehensive endpoints for video processing, advertisement management, and database operations.
+
+## Endpoint Categories
+
+### Video Management
+
+Upload, retrieve, and delete videos:
+
+- `POST /api/protected/videos/upload` - Upload a new video
+- `GET /api/protected/videos` - List all videos
+- `GET /api/protected/videos/{id}` - Get specific video
+- `DELETE /api/protected/videos/{id}` - Delete a video
+
+### Video Processing
+
+Process videos with retro shader effects:
+
+- `POST /api/protected/process-video` - Initiate video processing
+- `GET /api/protected/processing-status` - Get all job statuses
+- `GET /api/protected/processing-status/{jobId}` - Get specific job status
+- `POST /api/tasks/process-video-worker` - Worker endpoint (internal)
+
+### Advertisement Management
+
+Manage advertisement content:
+
+- `POST /api/protected/ads/upload` - Upload an advertisement
+- `GET /api/protected/ads` - List all ads
+- `GET /api/protected/ads/{id}` - Get specific ad
+- `DELETE /api/protected/ads/{id}` - Delete an ad
+
+### Database Operations (Supabase)
+
+Direct database access via Supabase REST API:
+
+- `GET /api/protected/supabase/query/{tableName}` - Query table
+- `GET /api/protected/supabase/query/{tableName}/filtered` - Query with filters
+- `POST /api/protected/supabase/insert/{tableName}` - Insert data
+- `PATCH /api/protected/supabase/update/{tableName}` - Update data
+- `DELETE /api/protected/supabase/delete/{tableName}` - Delete data
+- `GET /api/protected/supabase/storage/url/{bucket}/{path}` - Get storage URL
+
+### Public Endpoints
+
+Endpoints that don't require authentication:
+
+- `GET /api/hello` - Health check
+- `GET /config` - Get client configuration
+- `POST /api/webhooks/clerk` - Clerk webhook handler
+
+## Data Models
+
+### VideoUpload
+
+```typescript
+{
+  id: number;
+  userId: string;
+  fileName: string;
+  fileUrl: string;
+  storagePath: string;
+  fileSize: number;
+  durationSeconds: number;
+  uploadedAt: string; // ISO 8601 datetime
+  status: "PENDING" | "READY" | "PROCESSING" | "DELETED";
+}
+```
+
+### AdUpload
+
+```typescript
+{
+  id: number;
+  userId: string;
+  fileName: string;
+  fileUrl: string;
+  storagePath: string;
+  fileSize: number;
+  durationSeconds: number;
+  uploadedAt: string; // ISO 8601 datetime
+}
+```
+
+### ProcessVideoRequest
+
+```typescript
+{
+  videoId: number;
+  adIds: number[];
+  shaderStyle: "CRT" | "VHS" | "ARCADE";
+}
+```
+
+### WorkerPayload
+
+```typescript
+{
+  jobId: string;
+  userId: string;
+  videoId: number;
+  adIds: number[];
+  shaderStyle: string;
+}
+```
+
+## Rate Limiting
+
+Currently, there are no rate limits enforced on the API. However, this may change in the future.
+
+## Response Formats
+
+All responses are in JSON format unless otherwise specified.
+
+### Success Response
+
+```json
+{
+  "data": { /* response data */ },
+  "success": true
+}
+```
+
+### Error Response
+
+```json
+{
+  "error": "Error message",
+  "message": "Detailed error description",
+  "timestamp": "2024-01-01T00:00:00Z"
+}
+```

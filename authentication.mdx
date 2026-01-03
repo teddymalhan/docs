@@ -1,0 +1,108 @@
+---
+title: Authentication
+description: Learn how to authenticate with the RetroWatch API
+---
+
+# Authentication
+
+RetroWatch uses **JWT (JSON Web Token)** authentication powered by [Clerk](https://clerk.com). All protected endpoints require a valid Bearer token.
+
+## Overview
+
+- **Authentication Method**: Bearer JWT
+- **Token Provider**: Clerk
+- **Protected Routes**: `/api/protected/**`
+- **Public Routes**: `/api/hello`, `/config`, `/api/webhooks/clerk`
+
+## Getting Your Token
+
+### Using Clerk SDK (Frontend)
+
+If you're using the Clerk React SDK:
+
+```typescript
+import { useAuth } from '@clerk/clerk-react';
+
+function MyComponent() {
+  const { getToken } = useAuth();
+
+  const callAPI = async () => {
+    const token = await getToken();
+
+    const response = await fetch('https://retrowatch.malhan.ca/api/protected/videos', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    const data = await response.json();
+    return data;
+  };
+}
+```
+
+### Manual Token Usage
+
+```bash
+curl https://retrowatch.malhan.ca/api/protected/videos \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+## Security Scheme
+
+```json
+{
+  "bearer-jwt": {
+    "type": "http",
+    "description": "JWT token from Clerk",
+    "scheme": "bearer",
+    "bearerFormat": "JWT"
+  }
+}
+```
+
+## Protected Endpoints
+
+All endpoints under `/api/protected/**` require authentication:
+
+- `/api/protected/videos/**` - Video management
+- `/api/protected/ads/**` - Advertisement management
+- `/api/protected/process-video` - Video processing
+- `/api/protected/processing-status/**` - Job status tracking
+- `/api/protected/supabase/**` - Database operations
+- `/api/protected/hello` - Test endpoint
+
+## Error Responses
+
+### 401 Unauthorized
+
+Returned when no token is provided or the token is invalid:
+
+```json
+{
+  "error": "Unauthorized",
+  "message": "Missing or invalid authentication token"
+}
+```
+
+### 403 Forbidden
+
+Returned when the token is valid but lacks necessary permissions:
+
+```json
+{
+  "error": "Forbidden",
+  "message": "Insufficient permissions"
+}
+```
+
+## Best Practices
+
+<Warning>
+  Never expose your JWT token in client-side code or commit it to version control
+</Warning>
+
+- Store tokens securely (e.g., HTTP-only cookies or secure storage)
+- Refresh tokens before they expire
+- Use HTTPS in production
+- Implement token rotation for enhanced security
