@@ -1,6 +1,6 @@
 # RetroWatch API Documentation
 
-This directory contains the Mintlify documentation for the RetroWatch API.
+This directory contains the Mintlify documentation for the RetroWatch API
 
 ## Prerequisites
 
